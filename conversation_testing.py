@@ -15,43 +15,48 @@ st.write("upload the conversation in csv")
 # define the openai key
 
 
-client  = OpenAI(api_key="")
+openai_api_key = st.text_input("OpenAI API Key", type="password")
+if not openai_api_key:
+    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
+else:
 
-# Read the csv file
-uploaded_file = st.file_uploader("Upload the CSV file", type="csv")
+    client  = OpenAI(api_key="")
 
-if uploaded_file is not None :
-    df = pd.read_csv(uploaded_file)
-    st.write(df)
-    st.write(df.describe())
+    # Read the csv file
+    uploaded_file = st.file_uploader("Upload the CSV file", type="csv")
 
-    ## convert to json
-    # Convert the DataFrame to a list of JSON objects
-    json_data = df.to_dict(orient='records')
+    if uploaded_file is not None :
+        df = pd.read_csv(uploaded_file)
+        st.write(df)
+        st.write(df.describe())
 
-    # Convert list of dictionaries to JSON string
-    json_string = json.dumps(json_data, indent=2)
+        ## convert to json
+        # Convert the DataFrame to a list of JSON objects
+        json_data = df.to_dict(orient='records')
 
-    # Display the JSON data
-    st.write("JSON data:")
-    st.write(json_data)
+        # Convert list of dictionaries to JSON string
+        json_string = json.dumps(json_data, indent=2)
 
-    messages = [
-        {
-            "role": "user",
-            "content": f"conversation of the user and bot: {json_string} \n\n---\n\n Analyse the conversation",
-        }
-    ]
+        # Display the JSON data
+        st.write("JSON data:")
+        st.write(json_data)
 
-    # Generate an answer using the OpenAI API.
-    stream = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=messages,
-        stream=True,
-    )
+        messages = [
+            {
+                "role": "user",
+                "content": f"conversation of the user and bot: {json_string} \n\n---\n\n Analyse the conversation",
+            }
+        ]
 
-    # Stream the response to the app using `st.write_stream`.
-    st.write_stream(stream)
+        # Generate an answer using the OpenAI API.
+        stream = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            stream=True,
+        )
+
+        # Stream the response to the app using `st.write_stream`.
+        st.write_stream(stream)
 
 
 
