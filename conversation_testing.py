@@ -13,9 +13,9 @@ st.write("upload the conversation in csv")
 
 
 # define the openai key
-OPEN_AI_KEY = ""
 
-client  = OpenAI(api_key=OPEN_AI_KEY)
+
+client  = OpenAI(api_key="")
 
 # Read the csv file
 uploaded_file = st.file_uploader("Upload the CSV file", type="csv")
