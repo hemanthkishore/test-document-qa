@@ -11,10 +11,6 @@ st.write("upload the conversation in csv")
 ## number of chats to test 10
 ## number of agent tool to test 100
 
-
-# define the openai key
-
-
 openai_api_key = st.text_input("OpenAI API Key", type="password")
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
