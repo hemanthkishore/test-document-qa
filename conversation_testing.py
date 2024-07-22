@@ -13,7 +13,7 @@ st.write("upload the conversation in csv")
 
 
 # define the openai key
-OPEN_AI_KEY = "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"
+OPEN_AI_KEY = ""
 
 client  = OpenAI(api_key=OPEN_AI_KEY)
 
